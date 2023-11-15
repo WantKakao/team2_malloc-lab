@@ -209,7 +209,6 @@ void *first_fit(size_t asize) // 빈 공간 있을시 bp, 없을시 NULL return
     return NULL;
 }
 
-/* next_fit 의 포인터는 free 시에 움직여줘야하나? */
 void *next_fit(size_t asize) // 빈 공간 있을시 bp, 없을시 NULL return
 {
     char *bp = curr_listp;
@@ -331,26 +330,11 @@ void *mm_realloc(void *bp, size_t size)
         PUT(FTRP(bp), PACK(current_size, 1));
         return bp;
     }
-    // prev block ??
     else
     {
-        void *new_bp = mm_malloc(new_size); // 왜 new_size ?
+        void *new_bp = mm_malloc(new_size);
         memcpy(new_bp, bp, new_size);
         mm_free(bp);
         return new_bp;
     }
-
-    // void *oldbp = bp;
-    // void *newbp;
-    // size_t oldsize;
-
-    // oldsize = GET_SIZE(HDRP(oldbp));
-    // if (size < oldsize)
-    //     oldsize = size;
-
-    // mm_free(oldbp);
-    // newbp = mm_malloc(size);
-
-    // memcpy(newbp, oldbp, size);
-    // return newbp;
 }
